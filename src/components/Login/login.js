@@ -17,7 +17,7 @@ function Login(props) {
     <Button type='submit' onClick={()=>{props.setIsCorrectId(true); setIsLoading(true)}}>Submit</Button>
     
     {!props.isCorrectId?
-    <label className="notExistID">Your ID is Not Exist in The System</label>
+    <label className="notExistID">Your ID does not exist in the system</label>
     :<span/>
     }
   </Form>
