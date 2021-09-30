@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Login from '../Login/login'
 import { Button, Icon, Modal,Dropdown  } from 'semantic-ui-react';
 function Frame(props) {
@@ -6,15 +6,29 @@ function Frame(props) {
     const [moveToLogin, setMoveToLogin] =useState(false)
     const [openSecoundModal, setOpenSecoundModal]= useState(false)
     const [isCorrectId, setIsCorrectId] = useState(false)
-    const roleOptions = [
-      {
-        text: 'Manager',
-        value: 'Manager'    
-      },
-      {
-        text: 'Seller',
-        value: 'Seller',
-      }]
+    const [roleOptions]=useState([{"text":"Manager", "value":"Manager"},{"text":"Seller", "value":"Seller"}])
+    const [user, setUser]=useState(null)
+    const [dropdownValue, setDropdownValue]= useState(null)
+
+
+    useEffect(()=>{
+        if(user){
+            if(user.role.length==1){
+                setOpenSecoundModal(false); 
+                setMoveToLogin(false) 
+                setIsLoggdin(true)
+                setDropdownValue(user.role[0])
+            }
+        }
+        
+    },[user])
+
+    const logoutFunction=()=>{
+        setIsLoggdin(false)
+        setUser(null)
+        setDropdownValue(null)
+        setIsCorrectId(false)
+    }
     return (
 <div >
     <>
@@ -29,7 +43,7 @@ function Frame(props) {
           <Icon name='right arrow' />
         </div>
         <Modal.Description>
-        <Login isCorrectId={isCorrectId} setIsCorrectId={setIsCorrectId}/>     
+        <Login isCorrectId={isCorrectId} setIsCorrectId={setIsCorrectId} setUser={setUser} user={user}/>     
         </Modal.Description>
       </Modal.Content>
       {isCorrectId?
@@ -50,11 +64,13 @@ function Frame(props) {
         <Modal.Content>
           <p>In Which Role You Want To Enter?</p>
           <Dropdown
-       placeholder='Select Role'
-       fluid
-       selection
-       options={roleOptions}
-     />
+            placeholder='Select Role'
+            fluid
+            selection
+            value={dropdownValue}
+            onChange={(e)=>{ setDropdownValue(e.target.innerText); debugger; console.log("drop",e.target.innerText);}}
+            options={roleOptions}
+        />
         </Modal.Content>
         <Modal.Actions>
       
@@ -69,11 +85,11 @@ function Frame(props) {
    <div style={{display:'flex', justifyContent:'center', padding:"40px"}}>
    {!(isLoggdin)?
       <Button onClick={()=>{setMoveToLogin(true)}}>Login</Button>:
-      <Button onClick={()=>{setIsLoggdin(false)}}>Logout</Button>
+      <Button onClick={()=>{logoutFunction()}}>Logout</Button>
       }
 
     </div>
-    <h1>Welcome To Worker!</h1>
+    <h1>Welcome To Worker {user&&user.id} {dropdownValue}</h1>
         </div>)
 
 }

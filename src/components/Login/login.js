@@ -17,7 +17,12 @@ function Login(props) {
         <Form loading></Form>:
         <span/>
     }
-    <Button type='submit' onClick={()=>{ getUser(id); props.setIsCorrectId(true); setIsLoading(true)}}>Submit</Button>
+    <Button type='submit' onClick={()=>{ 
+            getUser(id, props.setUser)
+            // props.setUser(tempUser)
+            props.setIsCorrectId(true); 
+            setIsLoading(true)}}
+            >Submit</Button>
     
     {!props.isCorrectId && id ? 
     <label className="notExistID">Your ID does not exist in the system</label>
@@ -28,18 +33,26 @@ function Login(props) {
 
 }
 
-const getUser= (id)=>{
+const getUser= (id, setUser)=>{
     $.ajax({
-        url: "https://goofy-ride-8664d8.netlify.app/.netlify/functions/api/getUser",
+        url: 
+        "http://localhost:9000/.netlify/functions/api/getUser",
+        // "https://goofy-ride-8664d8.netlify.app/.netlify/functions/api/getUser",
         type: 'POST',
-        body:{id},
+        data:{id:id},
         success: function (data) {
-            console.log("the user", data.user);
-            return data.user
+            if(data.user){
+                console.log("the user", data.user);
+                setUser(data.user)
+                return
+            }
+            else
+                return null
+           
         },
         error: function (err) {
             console.log("error", err);
-            return "error"
+            return null
         }
     })
 }
