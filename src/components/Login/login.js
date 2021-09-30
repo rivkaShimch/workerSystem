@@ -36,8 +36,8 @@ function Login(props) {
 const getUser= (id, setUser)=>{
     $.ajax({
         url: 
-        "http://localhost:9000/.netlify/functions/api/getUser",
-        // "https://goofy-ride-8664d8.netlify.app/.netlify/functions/api/getUser",
+       // "http://localhost:9000/.netlify/functions/api/getUser",
+         "https://goofy-ride-8664d8.netlify.app/.netlify/functions/api/getUser",
         type: 'POST',
         data:{id:id},
         success: function (data) {
