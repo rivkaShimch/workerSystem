@@ -5,7 +5,7 @@ function Frame(props) {
     const [isLoggdin, setIsLoggdin]= useState(false)
     const [moveToLogin, setMoveToLogin] =useState(false)
     const [openSecoundModal, setOpenSecoundModal]= useState(false)
-    const [isCorrectId, setIsCorrectId] = useState(false)
+    const [isCorrectId, setIsCorrectId] = useState(true)
     const [roleOptions]=useState([{"text":"Manager", "value":"Manager"},{"text":"Seller", "value":"Seller"}])
     const [user, setUser]=useState(null)
     const [dropdownValue, setDropdownValue]= useState(null)
@@ -27,7 +27,6 @@ function Frame(props) {
         setIsLoggdin(false)
         setUser(null)
         setDropdownValue(null)
-        setIsCorrectId(false)
     }
     return (
 <div >

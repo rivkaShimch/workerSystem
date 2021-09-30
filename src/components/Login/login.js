@@ -18,14 +18,15 @@ function Login(props) {
         <span/>
     }
     <Button type='submit' onClick={()=>{ 
-            getUser(id, props.setUser)
+            setIsLoading(true)
+            getUser(id, props.setUser,props.setIsCorrectId, setIsLoading)
             // props.setUser(tempUser)
-            props.setIsCorrectId(true); 
-            setIsLoading(true)}}
+             
+           }}
             >Submit</Button>
     
     {!props.isCorrectId && id ? 
-    <label className="notExistID">Your ID does not exist in the system</label>
+    <label className="notExistID">Your ID does not exist in the system, please try again</label>
     :<span/>
     }
   </Form>
@@ -33,7 +34,7 @@ function Login(props) {
 
 }
 
-const getUser= (id, setUser)=>{
+const getUser= (id, setUser, setIsCorrectId, setIsLoading)=>{
     $.ajax({
         url: 
        // "http://localhost:9000/.netlify/functions/api/getUser",
@@ -44,14 +45,22 @@ const getUser= (id, setUser)=>{
             if(data.user){
                 console.log("the user", data.user);
                 setUser(data.user)
+                setIsCorrectId(true)
+                setIsLoading(false)
                 return
             }
-            else
+            else{
+                setIsCorrectId(false)
+                setIsLoading(false)
                 return null
+            }
+                
            
         },
         error: function (err) {
             console.log("error", err);
+            setIsCorrectId(false)
+            setIsLoading(false)
             return null
         }
     })
