@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Login from '../Login/login'
+import SignIn from '../SignIn/signIn'
+
 import { Button, Icon, Modal,Dropdown  } from 'semantic-ui-react';
 function Frame(props) {
     const [isLoggdin, setIsLoggdin]= useState(false)
@@ -9,11 +11,12 @@ function Frame(props) {
     const [roleOptions]=useState([{"text":"Manager", "value":"Manager"},{"text":"Seller", "value":"Seller"}])
     const [user, setUser]=useState(null)
     const [dropdownValue, setDropdownValue]= useState(null)
-
+    const [moveToSignIn, setMoveToSignIn]= useState(null)
+    const [openFirstModal, setOpenFirstModal]= useState(false)
 
     useEffect(()=>{
         if(user){
-            if(user.role.length==1){
+            if(user.role.length===1){
                 setOpenSecoundModal(false); 
                 setMoveToLogin(false) 
                 setIsLoggdin(true)
@@ -32,18 +35,20 @@ function Frame(props) {
 <div >
     <>
     <Modal
-      onClose={() => setMoveToLogin(false)}
-      onOpen={() => setMoveToLogin(true)}
-      open={moveToLogin}
+      onClose={() => {setMoveToLogin(false); setOpenFirstModal(false); setMoveToSignIn(false)}}
+      onOpen={() => openFirstModal(true)}
+      open={openFirstModal}
     >
-      <Modal.Header>The Worker</Modal.Header>
+      <Modal.Header>{moveToSignIn? "Sign in to ":""}The Worker</Modal.Header>
       <Modal.Content image>
         <div className='image'>
           <Icon name='right arrow' />
         </div>
         <Modal.Description>
+       {moveToLogin?
         <Login isCorrectId={isCorrectId} setIsCorrectId={setIsCorrectId} setUser={setUser} user={user}/>     
-        </Modal.Description>
+        :<SignIn isCorrectId={isCorrectId} setIsCorrectId={setIsCorrectId} setUser={setUser} user={user}/>}
+    </Modal.Description>
       </Modal.Content>
       {isCorrectId?
       <Modal.Actions>
@@ -58,7 +63,7 @@ function Frame(props) {
         onClose={() => setOpenSecoundModal(false)}
         open={openSecoundModal}
         size='small'
-      >
+      > 
         <Modal.Header></Modal.Header>
         <Modal.Content>
           <p>In Which Role You Want To Enter?</p>
@@ -75,15 +80,16 @@ function Frame(props) {
       
           <Button
             content='Login'
-            onClick={() => {setOpenSecoundModal(false); setMoveToLogin(false)} }
+            onClick={() => {setOpenSecoundModal(false); setMoveToLogin(false); setOpenFirstModal(false)} }
           />
         </Modal.Actions>
       </Modal>
     </Modal>
    </>
    <div style={{display:'flex', justifyContent:'center', padding:"40px"}}>
+   <Button onClick={()=>{setMoveToSignIn(true); setOpenFirstModal(true)}}>Sign-In</Button>
    {!(isLoggdin)?
-      <Button onClick={()=>{setMoveToLogin(true)}}>Login</Button>:
+      <Button onClick={()=>{setMoveToLogin(true); setOpenFirstModal(true)}}>Login</Button>:
       <Button onClick={()=>{logoutFunction()}}>Logout</Button>
       }
 
