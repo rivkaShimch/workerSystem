@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Form } from 'semantic-ui-react'
-
+import {getUser} from '../../services/user.services'
 import './login.css'
 function Login(props) {
     const [isLoading, setIsLoading]=useState(false)
@@ -15,7 +15,7 @@ function Login(props) {
         <Form loading></Form>:
         <span/>
     }
-    <Button type='submit' onClick={()=>{props.setIsCorrectId(true); setIsLoading(true)}}>Submit</Button>
+    <Button type='submit' onClick={()=>{ getUser(id); props.setIsCorrectId(true); setIsLoading(true)}}>Submit</Button>
     
     {!props.isCorrectId && id ? 
     <label className="notExistID">Your ID does not exist in the system</label>

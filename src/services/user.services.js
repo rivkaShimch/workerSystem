@@ -1,4 +1,4 @@
-getUser = (id) => {
+const getUser = (id) => {
     return fetch("https://goofy-ride-8664d8.netlify.app/.netlify/functions/api/getUser",
         {
         method: "POST",
@@ -8,6 +8,7 @@ getUser = (id) => {
         body: JSON.stringify({
             "id": id
                 })
+        }
         .then((res) => {
             return res.json();
         })
@@ -16,5 +17,6 @@ getUser = (id) => {
             return result.user
         }, (err) => {
         })
-}
-export {getUser}
+    )
+    }   
+module.exports= {getUser}
