@@ -7,10 +7,13 @@ function SignIn(props) {
     const [id, setId]=useState(null)
     const [sellerCheck, setSellerCheck]=useState(false)
     const [managerCheck, setManagerCheck]=useState(false)
-    
+    const [warning, setWarning]= useState('This ID is alredy in the system, please try again')
     useEffect(()=>{
 
-    },[managerCheck])
+    },[managerCheck, props.isCorrectId])
+
+    function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); } 
+
        return (<>
     <Form>
     <Form.Field>
@@ -36,15 +39,30 @@ function SignIn(props) {
                 roles.push("Seller")
             if(managerCheck)
                 roles.push("Manager")
-                debugger;
-            addUser(id, roles, props.setUser,props.setIsCorrectId, setIsLoading)
+           
+           
+            if(!isNumber(id)){
+                setWarning('ID must be a number')
+                props.setIsCorrectId(false)
+                setIsLoading(false)
+            }
+            if(roles.length<1){
+                setWarning('You have to choose at list one role')
+                props.setIsCorrectId(false)
+                setIsLoading(false)
+            }
+            if(isNumber(id) && roles.length>=1 ){
+                addUser(id, roles, props.setUser,props.setIsCorrectId, setIsLoading)
+                setWarning('This ID is alredy in the system, please try again')
+                props.setIsCorrectId(true)
+            }
             // props.setUser(tempUser)
              
            }}
             >Submit</Button>
     
     {!props.isCorrectId && id ? 
-    <label className="notExistID">This ID is alredy in the system, please try again</label>
+    <label className="notExistID">{warning}</label>
     :<span/>
     }
   </Form>
@@ -55,8 +73,8 @@ function SignIn(props) {
 const addUser= (id,roles, setUser, setIsCorrectId, setIsLoading)=>{
     $.ajax({
         url: 
-        //"http://localhost:9000/.netlify/functions/api/addUser",
-         "https://goofy-ride-8664d8.netlify.app/.netlify/functions/api/addUser",
+        "http://localhost:9000/.netlify/functions/api/addUser",
+         //"https://goofy-ride-8664d8.netlify.app/.netlify/functions/api/addUser",
         type: 'POST',
         data:{id:id,role:roles },
         success: function (data) {
