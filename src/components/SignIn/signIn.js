@@ -55,8 +55,8 @@ function SignIn(props) {
 const addUser= (id,roles, setUser, setIsCorrectId, setIsLoading)=>{
     $.ajax({
         url: 
-        "http://localhost:9000/.netlify/functions/api/addUser",
-         //"https://goofy-ride-8664d8.netlify.app/.netlify/functions/api/addUser",
+        //"http://localhost:9000/.netlify/functions/api/addUser",
+         "https://goofy-ride-8664d8.netlify.app/.netlify/functions/api/addUser",
         type: 'POST',
         data:{id:id,role:roles },
         success: function (data) {
