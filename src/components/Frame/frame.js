@@ -16,11 +16,12 @@ function Frame(props) {
 
     useEffect(()=>{
         if(user){
-            if(user.role.length===1){
+            if(user.role.length===1 || moveToSignIn){
                 setOpenSecoundModal(false); 
                 setMoveToLogin(false) 
                 setIsLoggdin(true)
                 setDropdownValue(user.role[0])
+                setOpenFirstModal(false)
             }
         }
         
@@ -50,7 +51,7 @@ function Frame(props) {
         :<SignIn isCorrectId={isCorrectId} setIsCorrectId={setIsCorrectId} setUser={setUser} user={user}/>}
     </Modal.Description>
       </Modal.Content>
-      {isCorrectId?
+      {isCorrectId && !moveToSignIn?
       <Modal.Actions>
       
         <Button onClick={() => {setIsLoggdin(true); setOpenSecoundModal(true); setIsCorrectId(false)}} primary>
@@ -87,7 +88,9 @@ function Frame(props) {
     </Modal>
    </>
    <div style={{display:'flex', justifyContent:'center', padding:"40px"}}>
-   <Button onClick={()=>{setMoveToSignIn(true); setOpenFirstModal(true)}}>Sign-In</Button>
+   {!isLoggdin?<Button onClick={()=>{setMoveToSignIn(true); setOpenFirstModal(true)}}>Sign-In</Button>:
+   <span/>}
+   
    {!(isLoggdin)?
       <Button onClick={()=>{setMoveToLogin(true); setOpenFirstModal(true)}}>Login</Button>:
       <Button onClick={()=>{logoutFunction()}}>Logout</Button>
