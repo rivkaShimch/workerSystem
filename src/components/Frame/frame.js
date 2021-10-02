@@ -72,7 +72,7 @@ function Frame(props) {
       > 
         <Modal.Header></Modal.Header>
         <Modal.Content>
-          <p>In Which Role You Want To Enter?</p>
+          <p>Enter as:</p>
           <Dropdown
             placeholder='Select Role'
             fluid
