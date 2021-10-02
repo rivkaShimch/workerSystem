@@ -13,6 +13,7 @@ function Frame(props) {
     const [dropdownValue, setDropdownValue]= useState(null)
     const [moveToSignIn, setMoveToSignIn]= useState(null)
     const [openFirstModal, setOpenFirstModal]= useState(false)
+    const [proceed, setProceed]= useState(false)
 
     useEffect(()=>{
         if(user){
@@ -22,6 +23,10 @@ function Frame(props) {
                 setIsLoggdin(true)
                 setDropdownValue(user.role[0])
                 setOpenFirstModal(false)
+                setMoveToSignIn(false)
+            }
+            else if(user.role.length>1){
+                setProceed(true)
             }
         }
         
@@ -51,10 +56,10 @@ function Frame(props) {
         :<SignIn isCorrectId={isCorrectId} setIsCorrectId={setIsCorrectId} setUser={setUser} user={user}/>}
     </Modal.Description>
       </Modal.Content>
-      {isCorrectId && !moveToSignIn?
+      { proceed?
       <Modal.Actions>
       
-        <Button onClick={() => {setIsLoggdin(true); setOpenSecoundModal(true); setIsCorrectId(false)}} primary>
+        <Button onClick={() => {setIsLoggdin(true); setOpenSecoundModal(true); }} primary>
           Proceed <Icon name='right chevron' />
         </Button>
       </Modal.Actions>
@@ -81,7 +86,7 @@ function Frame(props) {
       
           <Button
             content='Login'
-            onClick={() => {setOpenSecoundModal(false); setMoveToLogin(false); setOpenFirstModal(false)} }
+            onClick={() => {setOpenSecoundModal(false); setMoveToLogin(false); setOpenFirstModal(false); setProceed(false)} }
           />
         </Modal.Actions>
       </Modal>
