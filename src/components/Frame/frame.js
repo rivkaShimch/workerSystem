@@ -59,7 +59,7 @@ function Frame(props) {
       { proceed?
       <Modal.Actions>
       
-        <Button onClick={() => {setIsLoggdin(true); setOpenSecoundModal(true); }} primary>
+        <Button onClick={() => {setIsLoggdin(true); setOpenSecoundModal(true); setProceed(false) }} primary>
           Proceed <Icon name='right chevron' />
         </Button>
       </Modal.Actions>
