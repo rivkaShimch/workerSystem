@@ -25,7 +25,7 @@ function Frame(props) {
             }
         }
         
-    },[user])
+    },[user, moveToSignIn])
 
     const logoutFunction=()=>{
         setIsLoggdin(false)
