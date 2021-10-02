@@ -36,6 +36,7 @@ function Frame(props) {
         setIsLoggdin(false)
         setUser(null)
         setDropdownValue(null)
+        setProceed(false)
     }
     return (
 <div >
